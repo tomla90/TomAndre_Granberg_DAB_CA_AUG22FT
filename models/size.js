@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Size = sequelize.define('Size', {
-    Size: {
+    Name: {
       type: DataTypes.STRING,
       allowNull: false
     }

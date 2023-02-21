@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Temperament = sequelize.define('Temperament', {
-    Temperament: {
+    Name: {
       type: DataTypes.STRING,
       allowNull: false
     }
@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
   });
 
   Temperament.associate = (models) => {
-    Temperament.hasMany(models.Animal);
+    Temperament.belongsToMany(models.Animal, { through: 'AnimalTemperament' });
   };
 
   return Temperament;

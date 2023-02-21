@@ -12,16 +12,17 @@ module.exports = (sequelize) => {
     },
     Adopted: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      defaultValue: false
     }
   }, {
     timestamps: false
   });
 
   Animal.associate = (models) => {
-    Animal.belongsTo(models.Temperament);
-    Animal.belongsTo(models.Size);
     Animal.belongsTo(models.Species);
+    Animal.belongsTo(models.Size);
+    Animal.belongsToMany(models.Temperament, { through: 'AnimalTemperament' });
     Animal.hasOne(models.Adoption);
   };
 

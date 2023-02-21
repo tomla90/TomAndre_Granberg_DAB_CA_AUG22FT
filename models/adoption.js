@@ -2,8 +2,8 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   const Adoption = sequelize.define('Adoption', {
-    Adopted: {
-      type: DataTypes.BOOLEAN,
+    date: {
+      type: DataTypes.DATEONLY,
       allowNull: false
     }
   }, {
@@ -12,6 +12,7 @@ module.exports = (sequelize) => {
 
   Adoption.associate = (models) => {
     Adoption.belongsTo(models.Animal);
+    Adoption.belongsTo(models.User);
   };
 
   return Adoption;
