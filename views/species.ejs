@@ -29,7 +29,7 @@
         </span>
         <span class="col py-1 bg-light text-center">
           <button class="btn-sm btn-warning" onclick="updateSpecies(<%=species.id%>)">Update</button>
-          <button class="btn-sm btn-danger" onclick="deleteSpecies(<%=species.id%>)">Delete</button>
+          <button class="btn-sm btn-danger" onclick="deleteSpecies(<%=species.id%>, '<%=species.Name%>')">Delete</button>
         </span>
       </div>
       <% }); %>

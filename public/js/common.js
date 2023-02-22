@@ -27,10 +27,16 @@ async function updateSpecies(id) {
   }
 }
 
-  async function deleteSpecies(id) {
-    await fetch(`http://localhost:3000/species/${id}`, {
-      method: 'DELETE'
-    }).then((response) => {
+async function deleteSpecies(id, name) {
+  const confirmed = confirm(`Are you sure you want to delete ${name}?`);
+  if (!confirmed) {
+    return;
+  }
+
+  await fetch(`http://localhost:3000/species/${id}`, {
+    method: 'DELETE'
+  })
+    .then((response) => {
       if (response.ok) {
         const resData = 'Species deleted';
         location.reload();
@@ -41,7 +47,7 @@ async function updateSpecies(id) {
     .catch((response) => {
       alert(response.statusText);
     });
-  }
+}
 
 function updateTemperament(id){
     newTemperament = prompt("Update temperament")
@@ -55,6 +61,12 @@ async function addSpecies(url) {
   const form = document.querySelector('form');
   const formData = new FormData(form);
   const speciesName = formData.get('speciesName');
+
+  
+  if (!speciesName) {
+    alert('Please enter a species name.');
+    return;
+  }
 
   await fetch(url, {
     method: 'POST',
