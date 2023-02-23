@@ -10,9 +10,8 @@
 </head>
 
 <body>
-  
+  <%- include('./partials/navbar.ejs', {user: user}) %>
   <div class="container-fluid mt-5">
-    <%- include('./partials/navbar.ejs', {user: user}) %>
     <h2 class="p-3 text-center">Animals for Adoption</h2>
     <div class="list-group">
       <div class="row px-3 py-1 w-100">
