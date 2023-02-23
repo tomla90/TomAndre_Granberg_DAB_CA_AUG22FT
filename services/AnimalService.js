@@ -43,6 +43,9 @@ class AnimalService {
         });
       }
   
+
+
+  
     async deleteAnimal(id) {
       return this.Animal.destroy({
         where: { id: id },

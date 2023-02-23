@@ -1,4 +1,5 @@
-function adoptAnimal(id){
+async function adoptAnimal(id) {
+  
 }
 
 function deleteAnimal(id){
@@ -62,20 +63,21 @@ async function addSpecies(url) {
   const formData = new FormData(form);
   const speciesName = formData.get('speciesName');
 
-  
   if (!speciesName) {
     alert('Please enter a species name.');
     return;
-  }
+  } 
 
   await fetch(url, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-type': 'application/json'
     },
-    body: JSON.stringify({ name: speciesName }),
+    body: JSON.stringify({
+      name: speciesName
+    })
   })
-    .then(response => {
+    .then((response) => {
       if (response.ok) {
         const resData = 'Created a new species';
         location.reload();
@@ -83,7 +85,7 @@ async function addSpecies(url) {
       }
       return Promise.reject(response);
     })
-    .catch(response => {
+    .catch((response) => {
       alert(response.statusText);
     });
 }
