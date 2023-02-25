@@ -55,9 +55,9 @@
         </span>
         <span class="col py-1 bg-light text-center">
           <% if (!animal.Adopted) { %>
-          <button class="btn-sm btn-warning" onclick="adoptAnimal(<%=animal.Id%>)">Adopt</button>
+          <button class="btn-sm btn-warning" onclick="adoptAnimal(<%=animal.id%>)">Adopt</button>
           <% } else { %>
-          <button class="btn-sm btn-danger" onclick="cancelAdoption(<%=animal.Id%>)">Cancel Adoption</button>
+          <button class="btn-sm btn-danger" onclick="deleteAnimalAdoption(<%=animal.id%>)">Cancel Adoption</button>
           <% } %>
         </span>
       </div>

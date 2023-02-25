@@ -1,8 +1,40 @@
-async function adoptAnimal(id) {
-  
+async function adoptAnimal(id, userId) {
+  const adoptionDate = new Date();
+  await fetch(`http://localhost:3000/animals/${id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ animalId: id, userId, adoptionDate })
+  })
+    .then((response) => {
+      if (response.ok) {
+        const resData = 'Animal adopted';
+        location.reload();
+        return Promise.resolve(resData);
+      }
+      return Promise.reject(response);
+    })
+    .catch((response) => {
+      alert(response.statusText);
+    });
 }
 
-function deleteAnimal(id){
+async function deleteAnimalAdoption(id) {
+  await fetch(`http://localhost:3000/animals/${id}`, {
+    method: 'DELETE',
+  })
+    .then((response) => {
+      if (response.ok) {
+        const resData = 'Animal adoption deleted';
+        location.reload();
+        return Promise.resolve(resData);
+      }
+      return Promise.reject(response);
+    })
+    .catch((response) => {
+      alert(response.statusText);
+    });
 }
 
 async function updateSpecies(id) {
@@ -149,3 +181,5 @@ async function addTemperament(url) {
     });
   }
 }
+
+
