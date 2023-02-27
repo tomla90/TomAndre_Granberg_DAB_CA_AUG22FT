@@ -6,6 +6,7 @@ To use the application, follow these steps:
 - Install the required dependencies by running the command npm install in the root directory of the project.
 - Start the application by running the command npm start.
 - Open a web browser and navigate to http://localhost:3000 to access the application.
+- In order to access and manage the temperament and species tabs, administrator privileges are required. Only users who have been granted administrative access will be able to view and make changes to these tabs.
 
 # Environment Variables
 ADMIN_USERNAME: The username for the admin account.
