@@ -2,20 +2,22 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const TemperamentService = require('../services/TemperamentService');
+const { isAdmin } = require('./authMiddlewares');
 
 const temperamentService = new TemperamentService(db);
 
-router.get('/', async function(req, res, next) {
+router.get('/', isAdmin, async function(req, res, next) {
   try {
     const temperamentsData = await temperamentService.getAll();
-    res.render('temperament', { user: null, temperament: temperamentsData });
+    const user = req.user;
+    res.render('temperament', { user: user, temperament: temperamentsData });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal server error');
   }
 });
 
-router.post('/', async function(req, res, next) {
+router.post('/',  async function(req, res, next) {
   let name = req.body.name;
   await temperamentService.create(name);
   res.end();

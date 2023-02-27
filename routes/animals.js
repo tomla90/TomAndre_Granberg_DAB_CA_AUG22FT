@@ -6,6 +6,7 @@ const db = require('../models');
 const animalService = new AnimalService(db);
 const adoptionService = new AdoptionService(db);
 const calculateAge = require('../public/js/animals');
+var { checkIfAuthorized, isAdmin } = require("./authMiddlewares");
 
 router.get('/', async function (req, res, next) {
   try {
@@ -18,7 +19,7 @@ router.get('/', async function (req, res, next) {
   }
 });
 
-router.post('/:id', async function (req, res, next) {
+router.post('/:id', checkIfAuthorized, async function (req, res, next) {
   const animalId = req.params.id;
   const adoptionDate = new Date();
   if (!animalId) {
@@ -37,7 +38,7 @@ router.post('/:id', async function (req, res, next) {
   }
 });
 
-router.delete('/:id', async function (req, res, next) {
+router.delete('/:id', isAdmin, async function (req, res, next) {
   const animalId = req.params.id;
   await adoptionService.deleteAnimalAdoption(animalId);
   res.end();

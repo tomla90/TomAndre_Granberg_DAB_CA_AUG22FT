@@ -74,7 +74,12 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   db.User.findOne({ where: { id: id } }).then(user => {
-    done(null, user);
+    done(null, {
+      id: user.id,
+      FullName: user.FullName,
+      Username: user.Username,
+      role: user.Role // include role attribute
+    });
   }).catch(error => {
     console.log(error);
     done(error);
