@@ -51,7 +51,7 @@
           <%= calculateAge(animal.Birthday) %>
         </span>
         <span class="col py-1 bg-light">
-          <%=animal.Adopted%>
+          <%= animal.Adopted ? "Yes" : "No" %>
         </span>
         <span class="col py-1 bg-light text-center">
           <% if (!animal.Adopted) { %>

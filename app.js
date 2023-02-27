@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
@@ -8,6 +7,7 @@ var logger = require('morgan');
 var passport = require('passport');
 var session = require('express-session');
 var SQLiteStore = require('connect-sqlite3')(session);
+var LocalStrategy = require('passport-local').Strategy;
 
 var indexRouter = require('./routes/index');
 var animalsRouter = require('./routes/animals');
@@ -15,8 +15,6 @@ var speciesRouter = require('./routes/species');
 var temperamentRouter = require('./routes/temperament');
 
 var db = require("./models");
-db.sequelize.sync({ force: false })
-
 var app = express();
 
 // view engine setup
@@ -29,14 +27,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use(session({
-  secret: 'random text',
+  secret: process.env.SESSION_SECRET || 'random text',
   resave: false,
   saveUninitialized: false,
   store: new SQLiteStore()
 }));
-app.use(passport.authenticate('session'));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/animals', animalsRouter);
@@ -59,5 +57,34 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    db.User.findOne({ where: { Username: username } }).then(user => {
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (user.Password !== password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    }).catch(error => {
+      console.log(error);
+      return done(error);
+    });
+  }
+));
 
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  db.User.findByPk(id).then(user => {
+    done(null, user);
+  }).catch(error => {
+    console.log(error);
+    done(error);
+  });
+});
+db.sequelize.sync({ force: false });
+module.exports = app;

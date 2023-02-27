@@ -10,7 +10,8 @@ const calculateAge = require('../public/js/animals');
 router.get('/', async function (req, res, next) {
   try {
     const animalsData = await animalService.getAll();
-    res.render('animals', { user: null, animals: animalsData, calculateAge });
+    const user = req.user;
+    res.render('animals', { user, animals: animalsData, calculateAge });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal server error');
@@ -18,14 +19,22 @@ router.get('/', async function (req, res, next) {
 });
 
 router.post('/:id', async function (req, res, next) {
-    const animalId = req.params.id;
-    const userId = req.body.userId;
-    const adoptionDate = new Date();
-    if (!animalId) {
-      return res.status(400).send({ error: 'Invalid animal ID' });
-    }
+  const animalId = req.params.id;
+  const adoptionDate = new Date();
+  if (!animalId) {
+    return res.status(400).send({ error: 'Invalid animal ID' });
+  }
+
+  try {
+    // Get the logged-in user's id
+    const userId = req.user.id;
+    
     await adoptionService.adoptAnimal(animalId, userId, adoptionDate);
     res.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal server error');
+  }
 });
 
 router.delete('/:id', async function (req, res, next) {

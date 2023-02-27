@@ -12,8 +12,12 @@ class AdoptionService {
       throw new Error(`Animal with ID ${animalId} not found`);
     }
   
+    const maxId = await this.Adoption.max('id');
+    const newId = maxId ? maxId + 1 : 1;
+
     return this.client.transaction(async (transaction) => {
       await this.Adoption.create({
+        id: newId,
         AnimalId: animal.id,
         UserId: userId,
         date: adoptionDate,
