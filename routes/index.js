@@ -73,7 +73,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  db.User.findByPk(id).then(user => {
+  db.User.findOne({ where: { id: id } }).then(user => {
     done(null, user);
   }).catch(error => {
     console.log(error);
