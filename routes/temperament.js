@@ -25,8 +25,15 @@ router.post('/',  async function(req, res, next) {
 
 router.delete('/:id', async function(req, res, next) {
   const id = req.params.id;
-  await temperamentService.delete(id);
-  res.end();
+  const temperamentService = new TemperamentService(db);
+
+  try {
+    const result = await temperamentService.delete(id);
+    res.send({ message: result.message });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while deleting the temperament');
+  }
 });
 
 router.put('/:id', async function(req, res, next) {

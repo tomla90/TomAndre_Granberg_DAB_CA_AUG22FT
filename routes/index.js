@@ -26,7 +26,7 @@ router.get('/signup', function (req, res, next) {
 router.post('/signup', function(req, res, next) {
   const { firstname, lastname, username, password } = req.body;
   const fullName = `${firstname} ${lastname}`;
-  const role = 'user';
+  const role = 'member';
   db.User.max('id').then(maxId => {
     const newId = (maxId || 0) + 1;
     return db.User.create({

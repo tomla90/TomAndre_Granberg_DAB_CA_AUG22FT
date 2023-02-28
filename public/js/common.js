@@ -118,11 +118,13 @@ async function deleteTemperament(id, name) {
   })
     .then((response) => {
       if (response.ok) {
-        const resData = 'Temperament deleted';
-        location.reload();
-        return Promise.resolve(resData);
+        return response.json();
       }
       return Promise.reject(response);
+    })
+    .then((data) => {
+      alert(data.message);
+      location.reload();
     })
     .catch((response) => {
       alert(response.statusText);

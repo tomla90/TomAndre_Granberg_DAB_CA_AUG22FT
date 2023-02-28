@@ -2,11 +2,17 @@
 # Application Installation and Usage Instructions
 To use the application, follow these steps:
 
-- Clone the repository from GitHub.
-- Install the required dependencies by running the command npm install in the root directory of the project.
-- Start the application by running the command npm start.
-- Open a web browser and navigate to http://localhost:3000 to access the application.
-- In order to access and manage the temperament and species tabs, administrator privileges are required. Only users who have been granted administrative access will be able to view and make changes to these tabs.
+* Clone the repository from GitHub.
+* Set up a MySQL database by following the instructions in the README file under the "DATABASEACCESS" section. You will also need to * create a database named "adoptiondb" and grant the appropriate privileges to the "dabcaowner" user.
+* Populate the database with the necessary tables and data by running the SQL queries provided in the README file under the         "DATAINSERTS" section.
+* Install the required dependencies by running the command npm install in the root directory of the project.
+* Start the application by running the command npm start.
+* Open a web browser and navigate to http://localhost:3000 to access the application.
+* In order to access and manage the temperament and species tabs, administrator privileges are required. Only users who have been   - granted administrative access will be able to view and make changes to these tabs.
+* You have the option to either use the existing user account with the following login credentials:
+  Username: Admin
+  Password: admin1234
+  Or, alternatively, you can create a new member account.
 
 # Environment Variables
 ADMIN_USERNAME: The username for the admin account.
@@ -25,9 +31,19 @@ Sequelize (ORM)
 EJS (templating engine)
 Bootstrap (front-end framework)
 dotenv (environment variable management)
+cookie-parser (for parsing cookies)
+connect-sqlite3 (for connecting to SQLite database)
+debug (for debugging)
+express-session (for managing user sessions)
+http-errors (for handling HTTP errors)
+mysql (for connecting to MySQL database)
+mysql2 (for connecting to MySQL database)
+passport (for authentication)
+passport-local (for local authentication strategy)
+sqlite3 (for connecting to SQLite database)
 
 # NodeJS Version Used
-This application was developed using Node.js version 14.17.6.
+This application was developed using Node.js version 18.14.0
 
 # DATABASE
 The database used in this application is MySQL.
@@ -113,13 +129,20 @@ VALUES
    INSERT INTO Users (FullName, Username, Password, Role) VALUES ('System admin', 'Admin', 'admin1234', 'admin');
 
 # DATABASEACCESS
+
+CREATE USER 'dabcaowner'@'localhost' IDENTIFIED BY 'dabca1234';
+GRANT ALL PRIVILEGES ON adoptiondb.* TO 'dabcaowner'@'localhost';
+
+
 To access the database, you will need to have a MySQL server installed and running. The application is configured to connect to a MySQL database with the following credentials:
 
-Hostname: localhost
-Port: 3306
-Username: root
-Password: root
-Database: adoptiondb
+ADMIN_USERNAME = "dabcaowner"
+ADMIN_PASSWORD = "dabca1234"
+DATABASE_NAME = "adoptiondb"
+DIALECT = "mysql"
+DIALECTMODEL = "mysql2"
+PORT = "3000"
+HOST = "localhost"
 These credentials can be changed by modifying the appropriate environment variables in the .env file.
 
 Once the MySQL server is running and the appropriate credentials have been set up, you can run the database queries provided in the DATAINSERTS section of the README file to populate the database with data.
