@@ -24,6 +24,7 @@ module.exports = (sequelize) => {
     Animal.belongsTo(models.Size);
     Animal.belongsToMany(models.Temperament, { through: 'AnimalTemperament' });
     Animal.hasOne(models.Adoption);
+    Animal.belongsTo(models.Species);
   };
 
   return Animal;

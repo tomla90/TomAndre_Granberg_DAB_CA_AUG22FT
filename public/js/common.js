@@ -71,17 +71,24 @@ async function deleteSpecies(id, name) {
   })
     .then((response) => {
       if (response.ok) {
-        const resData = 'Species deleted';
-        location.reload();
-        return Promise.resolve(resData);
+        return response.json();
       }
       return Promise.reject(response);
     })
+    .then((data) => {
+      alert(data.message);
+      location.reload();
+    })
     .catch((response) => {
-      alert(response.statusText);
+      if (response.status === 400) {
+        response.text().then((errorMessage) => {
+          alert(errorMessage);
+        });
+      } else {
+        alert(response.statusText);
+      }
     });
 }
-
 function updateTemperament(id) {
    newTemperament = prompt('Enter new name:');
   if (newTemperament) {

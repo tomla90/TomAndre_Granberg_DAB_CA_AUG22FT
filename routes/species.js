@@ -25,8 +25,19 @@ router.post('/', isAdmin, async function(req, res, next) {
 
 router.delete('/:id', isAdmin, async function(req, res, next) {
   const id = req.params.id;
-  await speciesService.delete(id);
-  res.end();
+  const speciesService = new SpeciesService(db);
+
+  try {
+    const result = await speciesService.delete(id);
+    if (result.error) {
+      res.status(400).send(result.error);
+    } else {
+      res.send({ message: result.message });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while deleting the species');
+  }
 });
 
 router.put('/:id', isAdmin, async function(req, res, next) {
